@@ -230,7 +230,7 @@ def load_artifacts(run_id: str = None) -> Dict:
 
 
 @app.command()
-def predict_tag(text: List = [[]], run_id: str = None) -> None:
+def predict_tag(text: List = [], run_id: str = None) -> None:
     """Predict tag for text.
     Args:
         text (str): input text to predict label for.

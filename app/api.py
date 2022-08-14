@@ -7,13 +7,14 @@ import uuid
 from fastapi import FastAPI, Request
 from starlette.responses import Response
 import json
-from app.schemas import PredictPayload
+from app.schemas import PredictPayload, valid_features
 from config import config
 from config.config import logger
 from guess_price import main, predict
 from redis_om import get_redis_connection
 
 from .custom.monitoring import instrumentator
+from .schemas import valid_features
 from fastapi.middleware.cors import CORSMiddleware
 
 # from prometheus_fastapi_instrumentator import Instrumentator
@@ -123,11 +124,15 @@ def _arg(request: Request, arg: str) -> Dict:
 
 
 @app.post("/predict", tags=["Prediction"])
-def _predict(request: Request, response: Response, payload: PredictPayload) -> Dict:
+def _predict(request: Request, response: Response, payload: valid_features) -> Dict:
     """Predict tags for a list of texts."""
-    texts = [item.val for item in payload.records]
-    # print(texts)
+    print(payload)
+    # print(payload.dict())
+    # texts = [item.val for item in payload.records]
+    texts = [item for k, item in payload.dict().items()]
+    print(texts)
     predictions = predict.predict(texts=texts, artifacts=artifacts)
+    # print(predictions)
     response_ = {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
@@ -139,6 +144,7 @@ def _predict(request: Request, response: Response, payload: PredictPayload) -> D
     redis_db.rpush("pred_data", json.dumps(d))
     # print(response_)
     response.headers["X-model-predict"] = str(
-        [i["predicted_tag"] for i in response_["data"]["predictions"]]
+        [i["predicted_price"] for i in response_["data"]["predictions"]]
     )
+    print(response.headers["X-model-predict"])
     return response_

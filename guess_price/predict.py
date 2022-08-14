@@ -31,17 +31,20 @@ def predict(texts: List, artifacts: Dict) -> List:
     # # artifacts["vectorizer"].transform(texts)
     # predict(x)
     print(texts)
-    for x in texts:
-        x[3] = artifacts["ordinal_enc"].transform([[x[3]]])[0][0]
-    print(texts)
+    # for x in texts:
+    # print(x[3])
+    input_data = texts
+    input_data[3] = artifacts["ordinal_enc"].transform([[input_data[3]]])[0][0]
+    # x[3] = artifacts["ordinal_enc"].transform([[x[3]]])
+    # print(texts)
     y_pred = custom_predict(
-        y_pred=artifacts["model"].predict(texts),
+        y_pred=artifacts["model"].predict([input_data]),
     )
     # tags = artifacts["label_encoder"].decode(y_pred)
     predictions = [
         {
-            "input_text": texts[i],
-            "predicted_tag": y_pred[i],
+            "input_data": texts,
+            "predicted_price": y_pred[i],
         }
         for i in range(len(y_pred))
     ]

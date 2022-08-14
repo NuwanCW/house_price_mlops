@@ -22,7 +22,9 @@ instrumentator = Instrumentator(
     inprogress_labels=True,
 )
 
+# sum(rate(fastapi_price_prediction_sum[30m])) / sum(rate(fastapi_price_prediction_count[30m]))
 
+# sum(rate(fastapi_model_price_prediction_sum[30m])) / sum(rate(fastapi_model_price_prediction_count[30m]))
 # ----- custom metrics -----
 def regression_model_output(
     metric_name: str = "price_prediction",
@@ -41,7 +43,9 @@ def regression_model_output(
 
     def instrumentation(info: Info) -> None:
         if info.modified_handler == "/predict":
+            # print(info.response.headers.get("X-model-predict"))
             for i in ast.literal_eval(info.response.headers.get("X-model-predict")):
+                # print(f"i is is {i}")
                 predicted_price = i
                 METRIC.observe(float(predicted_price))
 
