@@ -1,0 +1,15 @@
+{
+  "boosting_type": "gbdt",
+  "objective": "regression",
+  "metric": [
+    "l2",
+    "l1"
+  ],
+  "num_leaves": 50,
+  "learning_rate": 0.13095919455433672,
+  "feature_fraction": 0.9,
+  "bagging_fraction": 0.8,
+  "bagging_freq": 10,
+  "verbose": -1,
+  "power_t": 0.2712582134015912
+}

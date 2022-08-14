@@ -1,0 +1,19 @@
+# mkdocs.yml
+site_name: House price prediction
+site_url: https://TBC.com/
+repo_url: https://TBC/
+nav:
+  - Home: index.md
+  - workflows:
+    - main: guess_price/main.md
+  - tagifai:
+    - data: guess_price/data.md
+    - evaluate: guess_price/evaluate.md
+    - predict: guess_price/predict.md
+    - train: guess_price/train.md
+    - utils: guess_price/utils.md
+theme: readthedocs
+plugins:
+  - mkdocstrings
+watch:
+  - .  # reload docs for any file changes
