@@ -17,3 +17,4 @@ pretty_errors
 redis_om
 prometheus-fastapi-instrumentator==5.7.0
 lightgbm
+starlette_exporter

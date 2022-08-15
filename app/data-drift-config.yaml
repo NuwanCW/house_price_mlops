@@ -1,0 +1,26 @@
+column_mapping:
+  categorical_features:
+  - BsmtQual
+  numerical_features:
+  - LotArea
+  - OverallQual
+  - YearRemodAdd
+  - BsmtFinSF1
+  - TotalBsmtSF
+  - FirststFlrSF
+  - SecondndFlrSF
+  - GrLivArea
+  - GarageCars
+
+data_format:
+  header: true
+  separator: ','
+service:
+  calculation_period_sec: 10
+  min_reference_size: 30
+  monitors:
+  - data_drift
+  moving_reference: false
+  reference_path: /mlops/app/train_used.csv
+  use_reference: true
+  window_size: 30

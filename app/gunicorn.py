@@ -69,7 +69,7 @@ bind = f"0.0.0.0:{port}"
 #
 
 # workers = multiprocessing.cpu_count() * 2 + 1
-workers = 1
+workers = 8
 # worker_connections = 1000
 timeout = 90
 # keepalive = 2

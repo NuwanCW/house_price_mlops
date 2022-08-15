@@ -11,6 +11,7 @@ COPY prometheus.yml  prometheus.yml
 COPY config.monitoring  config.monitoring 
 COPY time_print.sh time_print.sh
 
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gcc build-essential \
     && rm -rf /var/lib/apt/lists/* \
@@ -20,6 +21,8 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove build-essential
 
 # Copy
+COPY realtime_data_drift realtime_data_drift
+RUN python3 ./realtime_data_drift/setup.py install 
 COPY guess_price guess_price
 COPY app app
 COPY data data
@@ -36,4 +39,4 @@ EXPOSE 8000
 
 # Start app
 # ENTRYPOINT ["bash","./time_print.sh"]
-ENTRYPOINT ["gunicorn", "-c", "app/gunicorn.py", "-k", "uvicorn.workers.UvicornWorker", "app.api:app"]
+ENTRYPOINT ["gunicorn", "-c", "/mlops/app/gunicorn.py", "--preload", "-k", "uvicorn.workers.UvicornWorker", "app.api:app"]
